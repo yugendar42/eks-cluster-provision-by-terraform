@@ -1,0 +1,24 @@
+# Local Terraform directories
+.terraform/
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+
+# Terraform override files
+override.tf
+override.tf.json
+
+# Backup files
+*.tfvars.backup
+
+# Exclude IDE/editor specific files
+.idea/
+.vscode/
+
+# Exclude system files
+.DS_Store
+Thumbs.db

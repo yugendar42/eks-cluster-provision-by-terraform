@@ -1,0 +1,131 @@
+This repository contains Terraform code to **provision an AWS EKS (Elastic Kubernetes Service) cluster** along with the necessary **VPC, security groups, IAM roles, and worker nodes**.
+
+## 📁 **Folder Structure**
+
+eks-cluster-provision-by-terraform/
+│── modules/
+│   ├── vpc/                 # VPC module for networking
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   ├── security-group/       # Security Groups for EKS and nodes
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   ├── iam-eks/              # IAM Role for EKS Cluster
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   ├── iam-node-group/       # IAM Role for Worker Nodes
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   ├── eks/                  # EKS Cluster Module
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   ├── node-group/           # EKS Node Group Module
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│── main.tf                  # Root Terraform file
+│── variables.tf             # Root variables file
+│── terraform.tfvars         # User-defined variable values
+│── provider.tf              # AWS provider configuration
+│── outputs.tf               # Root-level outputs
+│── README.md                # Project documentation
+
+
+## 🛠 **How It Works**
+
+1. **Initialize Terraform**
+   
+   terraform init
+  
+   - Downloads the required providers and modules.
+
+2. **Validate Configuration**
+   
+   terraform validate
+   
+   - Ensures the Terraform code is syntactically correct.
+
+3. **Plan Deployment**
+   
+   terraform plan
+   
+   - Shows the resources that Terraform will create.
+
+4. **Apply Changes**
+   
+   terraform apply -auto-approve
+   
+   - Provisions all resources in AWS.
+ -----------------------------------------------------------
+    --> IMPORTANT STEPS  
+
+    After  Creation of eks cluster Go to aws console do it manually below steps
+    1. Click on Cluster Name
+    2. Go to "Access" section
+    3. "Create access entrty"
+    4. Add access policies "AmazonEKSClusterAdminPolicy" 
+    5. Next review and Create                              
+ -----------------------------------------------------------
+5. In terminal, Run the below commands
+
+ aws eks update-kubeconfig --name <your-cluster-name>  #used to update your local kubeconfig file
+
+ kubectl get nodes #To list the nodes
+
+
+
+6. **Check Outputs**
+   
+   terraform output
+   
+   - Retrieves values such as VPC ID, Subnet IDs, and EKS cluster details.
+
+7. **Destroy Resources (if needed)**
+   
+   terraform destroy -auto-approve
+   
+   - Deletes all created AWS resources.
+
+---
+
+##  **Modules**
+
+| Module Name       | Description                                                   |
+|-------------------|---------------------------------------------------------------|
+| `vpc`             | Creates a VPC, public subnets, and Internet Gateway.          |
+| `security-group`  | Configures security groups for EKS and worker nodes.          |
+| `iam-eks`         | Creates an IAM role for EKS cluster management.               |
+| `iam-node-group`  | Creates an IAM role for the EKS worker nodes.                 |
+| `eks`             | Deploys the EKS cluster.                                      |
+| `node-group`      | Provisions worker nodes and attaches them to the EKS cluster. |
+
+---
+
+## **Prerequisites**
+- **Terraform** (`>= v1.0.0`)
+- **AWS CLI** (`>= v2.0`)
+- **IAM permissions** to create VPCs, EKS, IAM roles, and EC2 instances.
+
+---
+
+# **Deployment in Different Environments**
+To deploy in different AWS environments (e.g., Dev, UAT, Prod), modify the `terraform.tfvars` file.
+
+Example for **UAT environment**:
+
+# eks_cluster_name = "uat-eks-cluster"
+# vpc_cidr_block   = "10.1.0.0/16"
+
+Then apply Terraform:
+
+terraform apply -var-file=terraform.tfvars
+
+
+
+### 🎉 Happy Terraforming! 🚀
+ 
